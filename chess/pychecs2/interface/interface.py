@@ -30,7 +30,7 @@ class CanvasChessboard(Canvas):
 
         self.boxes_list = []
 
-        #Selected Position
+        # Selected Position
         self.selected_position = None
 
         # Game
@@ -47,7 +47,7 @@ class CanvasChessboard(Canvas):
             height=self.n_columns * self.n_pixels_per_box,
         )
 
-        # Dictionary containing the pieces. 
+        # Dictionary containing the pieces.
         self.pieces = {
             "a1": "TB",
             "b1": "CB",
@@ -206,16 +206,12 @@ class CanvasChessboard(Canvas):
         self.infos.add_command(
             label="instructions", command=lambda: self.instructions()
         )
-        self.infos.add_command(
-            label="Done moves", command=lambda: self.moves_done()
-        )
+        self.infos.add_command(label="Done moves", command=lambda: self.moves_done())
         self.barre_tache.add_cascade(label="Options", menu=self.infos)
 
     def instructions(self):
         # a link is opened where the user can learn about the rules of the game
-        webbrowser.open(
-            "https://www.chess.com/learn-how-to-play-chess"
-        )
+        webbrowser.open("https://www.chess.com/learn-how-to-play-chess")
 
     def exit_game(self):
         # Allows to save_game before exiting (from the menu)
@@ -234,6 +230,9 @@ class CanvasChessboard(Canvas):
         # Allows to save_game the dictionary of pieces
         with open("Save", "wb") as f:
             pickle.dump(self.game.chess_board.pieces_dictionary, f)
+        with open("Save.txt", "w") as f:
+            f.write(str(self.game.chess_board.pieces_dictionary))
+            f.close()
 
     def load_game(self):
         """
@@ -349,14 +348,10 @@ class Window(Tk):
         # A click on the CanvasChecker is linked to a method.
         self.canvas_board.bind("<Button-1>", self.select)
         # def boutons(self):
-        self.new_game = Button(
-            self, text="Restart", command=self.canvas_board.restart
-        )
+        self.new_game = Button(self, text="Restart", command=self.canvas_board.restart)
         self.new_game.grid(row=3, column=0, padx=10, pady=10)
 
-        self.save = Button(
-            self, text="Save", command=self.canvas_board.save_game
-        )
+        self.save = Button(self, text="Save", command=self.canvas_board.save_game)
         self.save.grid(row=3, column=1, padx=10, pady=10)
 
         self.load = Button(
@@ -476,9 +471,7 @@ class Window(Tk):
                 self.dest_box(self.canvas_board.selected_position)
             else:
 
-                self.game.move(
-                    self.canvas_board.selected_position, position
-                ) 
+                self.game.move(self.canvas_board.selected_position, position)
 
                 # Creation of the list of the movements performed if a move has taken place (to be displayed from
                 # the Information menu
@@ -506,7 +499,8 @@ class Window(Tk):
                     self.info["foreground"] = "black"
                     self.info["text"] = (
                         "Game Over, the winner is the"
-                        + self.game.determine_winner() + "player"
+                        + self.game.determine_winner()
+                        + "player"
                     )
                     messagebox.showinfo(
                         title="Checkmate!",
