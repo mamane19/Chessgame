@@ -232,6 +232,7 @@ class CanvasChessboard(Canvas):
             pickle.dump(self.game.chess_board.pieces_dictionary, f)
         with open("Save.txt", "w") as f:
             f.write(str(self.game.chess_board.pieces_dictionary))
+            f.close()
 
     def load_game(self):
         """
